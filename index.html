@@ -188,12 +188,25 @@ const SITE = 'Paperknife';                 // your site name
 const CONTACT_EMAIL = 'contact@yourdomain.com';
 // Ad slots. Paste your ad code into "html". Slots stay as grey placeholders until you do.
 // If a banner script uses document.write (some Adsterra banners do), set iframe:true and w/h to the banner size.
+const BANNER_728x90 = `<script>
+  atOptions = {
+    'key' : 'deb9656765be3bf4dfda4d7b1191944f',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+<\/script>
+<script src="https://www.highrevenueformat.com/deb9656765be3bf4dfda4d7b1191944f/invoke.js"><\/script>`;
 const ADS = {
-  home:  { html:'', iframe:false, w:728, h:90  },   // banner on the home page
-  top:   { html:'', iframe:false, w:728, h:90  },   // banner above every tool
-  side:  { html:'', iframe:false, w:300, h:600 },   // sticky sidebar next to every tool (desktop only)
-  below: { html:'', iframe:false, w:728, h:90  }    // banner under the tool
+  home:  { html:BANNER_728x90, iframe:true,  w:728, h:90  },   // banner on the home page
+  top:   { html:BANNER_728x90, iframe:true,  w:728, h:90  },   // banner above every tool
+  side:  { html:`<script async="async" data-cfasync="false" src="https://pl31474467.profitableratecpmnetwork.com/f14343e4a16460bad10ae3a29537340f/invoke.js"><\/script>
+<div id="container-f14343e4a16460bad10ae3a29537340f"></div>`, iframe:false, w:300, h:600 },   // Native Banner, sticky sidebar next to every tool (desktop only)
+  below: { html:BANNER_728x90, iframe:true,  w:728, h:90  }    // banner under the tool
 };
+// Site-wide floating Social Bar, shown on every page. Paste '' here to remove it.
+const SOCIAL_BAR = `<script src="https://pl31474469.profitableratecpmnetwork.com/21/d0/52/21d052531cc07ea6dbc81141be07ed1d.js"><\/script>`;
 /* ================================================================= */
 
 const $=(s,r=document)=>r.querySelector(s);
@@ -1159,6 +1172,14 @@ $$('[data-site]').forEach(e=>e.textContent=SITE);
 $('#yr').textContent=new Date().getFullYear();
 window.addEventListener('hashchange',render);
 render();
+/* Site-wide floating Social Bar ad — loads once, stays on every page */
+if(SOCIAL_BAR.trim()){
+  const tmp=document.createElement('div');tmp.innerHTML=SOCIAL_BAR;
+  [...tmp.childNodes].forEach(nd=>{
+    if(nd.tagName==='SCRIPT'){const s=document.createElement('script');[...nd.attributes].forEach(a=>s.setAttribute(a.name,a.value));s.text=nd.textContent;document.body.appendChild(s);}
+    else document.body.appendChild(nd);
+  });
+}
 })();
 </script>
 </body>
